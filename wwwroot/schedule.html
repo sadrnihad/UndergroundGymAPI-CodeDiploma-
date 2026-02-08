@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule — Underground Gym</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="schedule">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="#F5A623" stroke-width="2"/>
+                    <rect x="12" y="18" width="16" height="4" rx="1" fill="#F5A623"/>
+                    <rect x="8" y="16" width="4" height="8" rx="1" fill="#F5A623"/>
+                    <rect x="28" y="16" width="4" height="8" rx="1" fill="#F5A623"/>
+                </svg>
+                Underground
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/schedule.html" class="active">Classes</a></li>
+                <li><a href="/membership.html">Membership</a></li>
+                <li><a href="/#trainers">Trainers</a></li>
+                <li><a href="/#gallery">Gallery</a></li>
+                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/admin.html">Admin</a></li>
+            </ul>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+        </div>
+    </nav>
+
+    <section style="padding-top:140px;">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Weekly Schedule</div>
+                <h2 class="section-title">Class Schedule</h2>
+                <p class="section-desc">Filter by type and book your spot. Classes fill up fast — reserve yours now.</p>
+            </div>
+
+            <div id="schedule-filters" class="filter-bar">
+                <p style="color:var(--gray-500);">Loading filters...</p>
+            </div>
+
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Type</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Spots</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body">
+                    <tr><td colspan="7" style="text-align:center;color:var(--gray-500);padding:40px;">Loading schedule...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" style="margin-top:80px;">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Underground Gym. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="YouTube">▶️</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

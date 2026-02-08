@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Plans — Underground Gym</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="membership">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="nav-brand">
+                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="18" stroke="#F5A623" stroke-width="2"/>
+                    <rect x="12" y="18" width="16" height="4" rx="1" fill="#F5A623"/>
+                    <rect x="8" y="16" width="4" height="8" rx="1" fill="#F5A623"/>
+                    <rect x="28" y="16" width="4" height="8" rx="1" fill="#F5A623"/>
+                </svg>
+                Underground
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/schedule.html">Classes</a></li>
+                <li><a href="/membership.html" class="active">Membership</a></li>
+                <li><a href="/#trainers">Trainers</a></li>
+                <li><a href="/#gallery">Gallery</a></li>
+                <li><a href="/#contact">Contact</a></li>
+                <li><a href="/admin.html">Admin</a></li>
+            </ul>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+        </div>
+    </nav>
+
+    <section style="padding-top:140px;">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Invest In Yourself</div>
+                <h2 class="section-title">Membership Plans</h2>
+                <p class="section-desc">Choose the plan that fits your goals. Upgrade or cancel anytime.</p>
+            </div>
+            <div id="membership-plans-grid" class="plans-grid">
+                <p style="text-align:center;color:var(--gray-500);">Loading plans...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY JOIN -->
+    <section style="background:var(--dark-bg);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Why Underground</div>
+                <h2 class="section-title">What You Get</h2>
+            </div>
+            <div class="stats-grid" style="text-align:center;">
+                <div class="stat-item">
+                    <h3 style="font-size:2rem;">🏋️</h3>
+                    <p style="font-size:1rem;color:var(--gray-100);margin-top:12px;">Premium Equipment</p>
+                    <p style="font-size:0.85rem;margin-top:4px;">Top-of-the-line machines and free weights from Rogue & Eleiko.</p>
+                </div>
+                <div class="stat-item">
+                    <h3 style="font-size:2rem;">👥</h3>
+                    <p style="font-size:1rem;color:var(--gray-100);margin-top:12px;">Expert Coaching</p>
+                    <p style="font-size:0.85rem;margin-top:4px;">Certified trainers with competition-level experience.</p>
+                </div>
+                <div class="stat-item">
+                    <h3 style="font-size:2rem;">🔥</h3>
+                    <p style="font-size:1rem;color:var(--gray-100);margin-top:12px;">Community</p>
+                    <p style="font-size:0.85rem;margin-top:4px;">Train alongside motivated athletes who push each other.</p>
+                </div>
+                <div class="stat-item">
+                    <h3 style="font-size:2rem;">🕐</h3>
+                    <p style="font-size:1rem;color:var(--gray-100);margin-top:12px;">24/7 Access</p>
+                    <p style="font-size:0.85rem;margin-top:4px;">Train on your schedule. Early bird or night owl — we're open.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Underground Gym. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="YouTube">▶️</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const plans = await apiGet('/memberships/plans');
+                const grid = document.getElementById('membership-plans-grid');
+                grid.innerHTML = plans.map(p => {
+                    const features = p.features ? JSON.parse(p.features) : [];
+                    return `
+                        <div class="plan-card ${p.isPopular ? 'popular' : ''}">
+                            ${p.isPopular ? '<span class="plan-badge">Most Popular</span>' : ''}
+                            <h3>${p.name}</h3>
+                            <p style="color:var(--gray-300);font-size:0.9rem;">${p.description || ''}</p>
+                            <div class="plan-price">$${p.price}<small>/mo</small></div>
+                            <ul class="plan-features">
+                                ${features.map(f => `<li>${f}</li>`).join('')}
+                            </ul>
+                            <button class="btn ${p.isPopular ? 'btn-primary' : 'btn-outline'}" style="width:100%;justify-content:center;"
+                                onclick="subscribePlan(${p.id})">
+                                Get Started →
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            } catch (e) { console.error(e); }
+        });
+
+        async function subscribePlan(planId) {
+            try {
+                await apiPost('/memberships/subscribe?userId=1', { planId });
+                showToast('Subscription created! Welcome to Underground.');
+            } catch (e) { showToast(e.message || 'Subscription failed'); }
+        }
+    </script>
+</body>
+</html>
